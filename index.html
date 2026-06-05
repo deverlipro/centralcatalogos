@@ -95,10 +95,10 @@ footer{background:#fff;color:var(--text);padding:38px 20px 22px;border-top:1px s
 
 <main class="site-middle">
     <section id="catalogos" class="container catalog-panel">
-        <div class="toolbar">
+        <div class="toolbar" style="display:none">
             <div>
-                <div class="path" id="brandPath">Pastas por marca</div>
-                <div class="status" id="statusLine">Carregando catálogos...</div>
+                <div class="path" id="brandPath"></div>
+                <div class="status" id="statusLine"></div>
             </div>
             <button class="back" id="backBrandBtn" onclick="clearFilters()" style="display:none"><i class="fa-solid fa-arrow-left"></i> Voltar para marcas</button>
         </div>
@@ -199,6 +199,7 @@ let usingSupabase = false;
 let isAdmin = localStorage.getItem('catalogos_admin_ok') === '1';
 const marcasFixas = ['TATU','BALDAN','JACTO','JUMIL','STARA','JAN','KUHN','MASSEY FERGUSON','JOHN DEERE','NEW HOLLAND','CASE','VALTRA','AGRALE','SÃO JOSÉ','LAVRALE','NOGUEIRA','MIAC','PINHALENSE','CIVEMASA','VENCE TUDO'];
 let marcaAtual = new URLSearchParams(window.location.search).get("marca") || "";
+function isAdminMode(){return window.location.hash === '#admin' && isAdmin;}
 
 function escapeHtml(value){return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
 function escapeJs(value){return String(value||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
@@ -213,7 +214,7 @@ function formatMoney(value){
     const n = Number(value||0);
     return n.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
 }
-function setStatus(msg){document.getElementById('statusLine').textContent = msg;}
+function setStatus(msg){const el=document.getElementById('statusLine'); if(el) el.textContent='';}
 function getLocalCatalogs(){try{return JSON.parse(localStorage.getItem('catalogos_local')||'[]')}catch(e){return []}}
 function saveLocalCatalogs(list){localStorage.setItem('catalogos_local', JSON.stringify(list));}
 function mapCatalog(row){
@@ -397,19 +398,28 @@ function renderCatalogs(){
         const preco = Number(c.preco || 0);
         const hasPayment = !!String(c.pagamento_url || '').trim();
         const isPaid = preco > 0 || hasPayment;
-        const adminDelete = '';
+        const adminMode = isAdminMode();
+
         const priceLine = isPaid
             ? `<div class="price-line"><span><i class="fa-solid fa-lock"></i> Catálogo pago</span><strong>${preco > 0 ? formatMoney(preco) : 'Pagamento obrigatório'}</strong></div>`
             : `<div class="download-line"><span><i class="fa-solid fa-file-pdf"></i> PDF disponível</span><strong><i class="fa-solid fa-download"></i> Download liberado</strong></div>`;
 
         let actionButtons = '';
-        if(isPaid){
+
+        if(adminMode){
+            const disabled = !c.arquivo ? 'style="pointer-events:none;opacity:.55"' : '';
+            actionButtons = `
+                <a class="view" href="${escapeHtml(arquivo)}" target="_blank" ${disabled}><i class="fa-solid fa-eye"></i> Ver PDF Admin</a>
+                <button class="delete" onclick="deleteCatalog('${escapeJs(c.id)}','${escapeJs(c.origem||'supabase')}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+            `;
+        }else if(isPaid){
             const buyDisabled = hasPayment ? '' : 'style="pointer-events:none;opacity:.55"';
             actionButtons = `<a class="buy" href="${escapeHtml(c.pagamento_url || '#')}" target="_blank" rel="noopener" ${buyDisabled}><i class="fa-solid fa-cart-shopping"></i> Comprar agora</a>`;
         }else{
             const disabled = !c.arquivo ? 'style="pointer-events:none;opacity:.55"' : '';
             actionButtons = `<a class="open" href="${escapeHtml(arquivo)}" download ${disabled}><i class="fa-solid fa-download"></i> Baixar catálogo</a><a class="view" href="${escapeHtml(arquivo)}" target="_blank" ${disabled}><i class="fa-solid fa-eye"></i> Visualizar</a>`;
         }
+
         grid.innerHTML+=`<div class="card" data-catalog-id="${escapeHtml(c.id)}"><div class="card-icon"><i class="fa-solid ${iconByCategory(c.categoria)}"></i></div><span class="tag">${escapeHtml(c.categoria)}</span><h3>${escapeHtml(c.nome)}</h3><p><b>Marca:</b> ${escapeHtml(c.marca)}</p><p>${escapeHtml(c.descricao)}</p>${priceLine}<div class="actions">${actionButtons}</div></div>`;
     });
 }
@@ -510,6 +520,7 @@ async function saveCatalog(){
     }
 }
 async function deleteCatalog(id, origem){
+    if(!isAdminMode()){alert('Acesso administrativo necessário.'); return;}
     if(!confirm('Excluir este catálogo?')) return;
     try{
         if(origem==='local'){
