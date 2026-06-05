@@ -1,760 +1,595 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Desenvolvendo soluções, criando possibilidades.</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desenvolvendo soluções, criando possibilidades | Deverli Oliveira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --primary:#0f3d66;
+    --primary2:#1b75bb;
+    --accent:#f58220;
+    --text:#1f2937;
+    --muted:#667085;
+    --border:#d9e3ef;
+    --soft:#eef5fb;
+    --green:#16a34a;
+    --danger:#dc2626;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Montserrat,Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}.container{max-width:1350px;margin:auto;padding:0 20px}
+header{background:#fff;position:sticky;top:0;z-index:999;border-bottom:1px solid var(--border);box-shadow:0 4px 20px rgba(15,61,102,.08)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0;flex-wrap:wrap}.logo{display:flex;align-items:center;gap:14px}.logo img{width:88px;height:58px;object-fit:contain;border-radius:8px}.logo h1{font-size:24px;color:var(--primary);font-weight:900;line-height:1}.logo p{color:var(--muted);font-size:12px;font-weight:700;margin-top:4px}.nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}.nav a,.nav button{border:1px solid var(--border);background:#fff;color:var(--primary);font-size:12px;font-weight:900;border-radius:999px;padding:10px 13px;cursor:pointer;transition:.2s}.nav a:hover,.nav button:hover{background:var(--soft);border-color:var(--primary2);transform:translateY(-1px)}.nav .whatsapp{background:#16a34a;color:#fff;border-color:#16a34a}.nav .login{display:none;background:var(--primary);color:#fff;border-color:var(--primary)}
+.brand-bar{border-top:1px solid #edf2f7;background:#f8fbff}.brand-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 20px;flex-wrap:wrap}.brand-shortcuts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.brand-title{color:var(--primary2);font-size:12px;font-weight:900;letter-spacing:.6px;text-transform:uppercase}.brand-shortcuts button{border:1px solid var(--border);background:#fff;color:var(--primary);font-size:11px;font-weight:900;border-radius:999px;padding:8px 12px;cursor:pointer;transition:.2s}.brand-shortcuts button:hover,.brand-shortcuts button.active-brand{background:var(--primary2);color:#fff;border-color:var(--primary2)}.benefits{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.benefit{font-size:12px;font-weight:800;color:var(--primary);background:#fff;border:1px solid var(--border);padding:8px 11px;border-radius:999px}
+.search-area{padding:20px 0;background:#fff;border-bottom:1px solid var(--border)}.search-box{display:flex;gap:12px;flex-wrap:wrap}.suggest-wrap{position:relative;flex:1;min-width:240px}.search-box input,.search-box select{width:100%;padding:15px;border:1px solid var(--border);border-radius:12px;font-size:15px;outline:none;font-weight:800;background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(15,61,102,.05)}.search-box select{flex:0 0 280px}.search-box input:focus,.search-box select:focus{border-color:var(--primary2);box-shadow:0 0 0 3px rgba(27,117,187,.12)}.suggestions{position:absolute;left:0;right:0;top:58px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 14px 28px rgba(15,61,102,.16);z-index:99999;display:none;overflow:hidden;max-height:330px;overflow-y:auto}.suggestion-item{padding:12px 14px;border-bottom:1px solid #edf2f7;cursor:pointer;color:var(--text);font-weight:800;display:flex;align-items:center;gap:10px}.suggestion-item:hover{background:var(--soft);color:var(--primary2)}.suggestion-item small{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-top:3px}
+.site-middle{padding:28px 0 42px}.catalog-panel{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 8px 24px rgba(15,61,102,.07)}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}.path{font-size:15px;font-weight:900;color:var(--primary)}.back{border:1px solid var(--border);background:#fff;color:var(--primary);padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer;transition:.2s}.back:hover{background:var(--soft);border-color:var(--primary2)}.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}.brand-folder,.card{background:#fff;border-radius:16px;padding:22px;border:1px solid var(--border);box-shadow:0 6px 18px rgba(15,61,102,.07);transition:.2s;position:relative;overflow:hidden}.brand-folder{cursor:pointer}.brand-folder:hover,.card:hover{transform:translateY(-3px);border-color:#b7d5ef;box-shadow:0 12px 26px rgba(15,61,102,.12)}.folder-icon,.card-icon{width:58px;height:58px;border-radius:16px;background:var(--soft);color:var(--primary2);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:14px;border:1px solid var(--border)}.brand-folder h3,.card h3{font-size:20px;color:var(--primary);margin-bottom:8px;word-break:break-word}.brand-folder p,.card p{font-size:14px;color:#425466;line-height:1.6;margin-bottom:12px;word-break:break-word}.tag,.count{display:inline-block;background:#eef5fb;color:var(--primary2);padding:7px 12px;border-radius:20px;font-size:12px;font-weight:900;border:1px solid #cfe3f7}.tag{margin-bottom:14px}.download-line{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f8fbff;border:1px solid var(--border);padding:12px;border-radius:14px;margin:12px 0}.download-line strong{color:var(--green);font-size:13px}.price-line{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;padding:12px;border-radius:14px;margin:12px 0;font-weight:900}.price-line strong{font-size:18px;color:#c2410c}.buy{background:var(--accent);color:#fff}.buy:hover{background:#d96f13}.locked{background:#f1f5f9;color:#64748b;border:1px solid var(--border)!important;cursor:not-allowed!important}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a,.actions button{flex:1;text-align:center;padding:12px;border-radius:10px;font-weight:900;font-size:13px;transition:.2s;border:0;cursor:pointer}.open{background:var(--primary2);color:#fff}.open:hover{background:#0f5f9f}.view{background:#eef2f7;color:var(--primary);border:1px solid var(--border)!important}.delete{background:#fee2e2;color:#991b1b}.empty{grid-column:1/-1;background:#fff;border:1px dashed #b7c7d8;border-radius:18px;padding:28px;line-height:1.8;color:#425466}.empty strong{color:var(--primary2)}.section-title{font-size:20px;color:var(--primary);font-weight:900;margin:0 0 16px}.status{font-size:12px;font-weight:800;color:var(--muted)}
+footer{background:#fff;color:var(--text);padding:38px 20px 22px;border-top:1px solid var(--border)}.footer-grid{max-width:1200px;margin:auto;display:flex;justify-content:center;text-align:center}footer h3{color:var(--primary);margin-bottom:12px}footer p{font-size:14px;line-height:1.8;color:#425466}.legal{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;border-top:1px solid var(--border);padding-top:16px;line-height:1.8}.legal strong{color:var(--primary2)}#btnTopo{position:fixed;bottom:25px;right:25px;width:52px;height:52px;border:none;border-radius:50%;background:var(--primary2);color:#fff;font-size:20px;cursor:pointer;z-index:9999;display:none;box-shadow:0 8px 20px rgba(15,61,102,.22);transition:.2s}#btnTopo:hover{transform:translateY(-3px);background:#0f5f9f}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:99999;padding:18px}.modal.show{display:flex}.modal-card{background:#fff;border-radius:22px;max-width:720px;width:100%;border:1px solid var(--border);box-shadow:0 22px 70px rgba(0,0,0,.25);overflow:hidden}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border)}.modal-head h2{font-size:20px;color:var(--primary)}.close{width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;cursor:pointer;font-size:18px;color:var(--primary)}.modal-body{padding:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:900;color:var(--primary);text-transform:uppercase}.field input,.field select,.field textarea{padding:13px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;outline:none}.field textarea{min-height:90px;resize:vertical}.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:13px 16px;font-weight:900;cursor:pointer}.btn.primary{background:var(--primary2);color:#fff}.btn.secondary{background:#eef2f7;color:var(--primary);border:1px solid var(--border)}.btn.danger{background:#fee2e2;color:#991b1b}.login-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;background:#f8fbff;border:1px solid var(--border);padding:12px;border-radius:14px}.login-row input{flex:1;min-width:220px;padding:12px;border:1px solid var(--border);border-radius:10px;font-weight:800}.admin-area{display:none}.admin-area.show{display:block}.small-note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;font-weight:700}
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+/* AJUSTES SOLICITADOS - pesquisa fixa e catálogos menores no celular */
+.search-area{position:sticky;top:112px;z-index:998;padding:12px 0;box-shadow:0 6px 18px rgba(15,61,102,.06)}
+.logo h1{font-size:20px;line-height:1.15}
+@media(max-width:850px){
+    header{position:sticky;top:0}
+    .topbar{padding:8px 0;gap:8px}
+    .logo img{width:58px;height:42px}
+    .logo h1{font-size:14px;line-height:1.2}
+    .logo p{font-size:10px}
+    .nav{gap:5px}
+    .nav a,.nav button{font-size:10px;padding:7px 9px}
+    .brand-bar-inner{padding:7px 10px;gap:8px}
+    .brand-shortcuts{gap:5px;flex-wrap:nowrap;overflow-x:auto;width:100%;justify-content:flex-start;padding-bottom:3px}
+    .brand-shortcuts button{font-size:10px;padding:7px 10px;white-space:nowrap}
+    .brand-title{display:none}
+    .benefits{display:none}
+    .search-area{top:116px;padding:8px 0}
+    .search-box{gap:7px}
+    .search-box input,.search-box select{padding:10px;font-size:12px;border-radius:10px}
+    .suggestions{top:44px}
+    .site-middle{padding:12px 0 26px}
+    .catalog-panel{padding:10px;border-radius:14px}
+    .toolbar{margin-bottom:10px}
+    .path{font-size:12px}
+    .status{font-size:10px}
+    .section-title{font-size:15px;margin-bottom:10px}
+    .catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .brand-folder,.card{padding:9px;border-radius:12px}
+    .folder-icon,.card-icon{width:34px;height:34px;font-size:16px;border-radius:10px;margin-bottom:7px}
+    .brand-folder h3,.card h3{font-size:12px;margin-bottom:5px;line-height:1.25}
+    .brand-folder p,.card p{font-size:10px;line-height:1.35;margin-bottom:6px}
+    .tag,.count{font-size:9px;padding:4px 7px;margin-bottom:6px}
+    .download-line,.price-line{padding:7px;margin:7px 0;border-radius:9px;font-size:10px;display:block}
+    .download-line strong,.price-line strong{font-size:11px;display:block;margin-top:3px}
+    .actions{gap:5px}
+    .actions a,.actions button{font-size:9px;padding:7px 5px;border-radius:8px}
+    .back{font-size:10px;padding:7px 9px}
+    #btnTopo{width:42px;height:42px;bottom:15px;right:15px}
+}
+@media(max-width:420px){
+    .catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+    .brand-folder,.card{padding:7px}
+    .folder-icon,.card-icon{width:28px;height:28px;font-size:14px;margin-bottom:5px}
+    .brand-folder h3,.card h3{font-size:10px}
+    .brand-folder p,.card p{font-size:8.5px}
+    .actions a,.actions button{font-size:8px;padding:6px 3px}
+    .tag,.count{font-size:8px;padding:3px 5px}
+}
 
-  <style>
-    :root{
-      --bg:#f4f6f8;
-      --card:#ffffff;
-      --text:#111827;
-      --muted:#6b7280;
-      --line:#e5e7eb;
-      --primary:#1f2937;
-      --primary2:#374151;
-      --success:#15803d;
-      --danger:#dc2626;
-      --warning:#d97706;
-      --radius:18px;
-      --shadow:0 10px 28px rgba(15,23,42,.08);
-    }
-
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      padding-bottom:30px;
-    }
-
-    .topo{
-      background:#fff;
-      border-bottom:1px solid var(--line);
-      padding:18px 16px 12px;
-      text-align:center;
-      position:sticky;
-      top:0;
-      z-index:1000;
-      box-shadow:0 4px 18px rgba(15,23,42,.06);
-    }
-
-    .topo h1{
-      font-size:24px;
-      line-height:1.15;
-      font-weight:800;
-      color:var(--primary);
-      margin-bottom:4px;
-    }
-
-    .topo .autor{
-      font-size:13px;
-      color:var(--muted);
-      font-weight:600;
-      margin-bottom:12px;
-    }
-
-    .busca-wrap{
-      width:100%;
-      max-width:980px;
-      margin:0 auto;
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-
-    .busca-wrap input{
-      flex:1;
-      height:42px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:0 16px;
-      font-size:15px;
-      outline:none;
-      background:#f9fafb;
-    }
-
-    .busca-wrap input:focus{
-      border-color:#9ca3af;
-      background:#fff;
-    }
-
-    .btn-admin-top{
-      height:42px;
-      border:none;
-      border-radius:999px;
-      background:var(--primary);
-      color:#fff;
-      font-weight:700;
-      padding:0 16px;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-
-    .container{
-      width:min(1180px,94%);
-      margin:18px auto;
-    }
-
-    .marcas{
-      display:flex;
-      gap:10px;
-      overflow-x:auto;
-      padding:4px 2px 12px;
-      margin-bottom:12px;
-      scrollbar-width:none;
-    }
-    .marcas::-webkit-scrollbar{display:none}
-
-    .marca-btn{
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--primary);
-      padding:11px 18px;
-      border-radius:999px;
-      font-weight:800;
-      cursor:pointer;
-      box-shadow:0 4px 12px rgba(15,23,42,.05);
-      white-space:nowrap;
-      transition:.2s;
-    }
-
-    .marca-btn:hover,
-    .marca-btn.ativa{
-      background:var(--primary);
-      color:#fff;
-      border-color:var(--primary);
-    }
-
-    .grade{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-      gap:18px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height:280px;
-      position:relative;
-    }
-
-    .thumb{
-      height:150px;
-      background:linear-gradient(135deg,#f9fafb,#eef2f7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-bottom:1px solid var(--line);
-      padding:14px;
-    }
-
-    .thumb .pdf-icon{
-      width:72px;
-      height:88px;
-      border-radius:12px;
-      background:#ef4444;
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:900;
-      font-size:22px;
-      box-shadow:0 10px 22px rgba(239,68,68,.24);
-    }
-
-    .card-body{
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      flex:1;
-    }
-
-    .tag{
-      display:inline-flex;
-      align-self:flex-start;
-      background:#f3f4f6;
-      color:#374151;
-      border-radius:999px;
-      padding:4px 9px;
-      font-size:11px;
-      font-weight:800;
-    }
-
-    .card h3{
-      font-size:16px;
-      line-height:1.25;
-      color:#111827;
-      word-break:break-word;
-    }
-
-    .preco{
-      font-size:14px;
-      color:var(--success);
-      font-weight:900;
-    }
-
-    .card-actions{
-      margin-top:auto;
-      display:grid;
-      gap:8px;
-    }
-
-    .btn{
-      border:none;
-      border-radius:12px;
-      padding:10px 12px;
-      cursor:pointer;
-      font-weight:800;
-      font-size:14px;
-      text-align:center;
-      text-decoration:none;
-      display:inline-flex;
-      justify-content:center;
-      align-items:center;
-      gap:6px;
-    }
-
-    .btn-ver{background:var(--primary);color:#fff}
-    .btn-edit{background:#fef3c7;color:#92400e}
-    .btn-del{background:#fee2e2;color:#991b1b}
-    .btn-save{background:var(--success);color:#fff}
-    .btn-cancel{background:#e5e7eb;color:#111827}
-
-    .admin-actions{
-      display:none;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-    body.admin-on .admin-actions{display:grid}
-
-    .vazio{
-      background:#fff;
-      border:1px dashed #cbd5e1;
-      border-radius:18px;
-      padding:30px;
-      text-align:center;
-      color:var(--muted);
-      grid-column:1/-1;
-    }
-
-    .modal-bg{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.55);
-      z-index:2000;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-    .modal-bg.ativo{display:flex}
-
-    .modal{
-      width:min(520px,100%);
-      background:#fff;
-      border-radius:22px;
-      box-shadow:0 25px 70px rgba(0,0,0,.25);
-      padding:20px;
-    }
-
-    .modal h2{
-      font-size:22px;
-      margin-bottom:12px;
-      color:#111827;
-    }
-
-    .form-grid{
-      display:grid;
-      gap:10px;
-    }
-
-    label{
-      font-size:12px;
-      font-weight:900;
-      color:#374151;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-    }
-
-    input, select{
-      width:100%;
-      height:42px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:0 12px;
-      font-size:14px;
-      outline:none;
-      background:#f9fafb;
-    }
-
-    input:focus, select:focus{
-      background:#fff;
-      border-color:#9ca3af;
-    }
-
-    .modal-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:14px;
-    }
-
-    .admin-panel{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:14px;
-      margin-bottom:14px;
-      display:none;
-      box-shadow:var(--shadow);
-    }
-    body.admin-on .admin-panel{display:block}
-
-    .admin-panel-top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    .admin-panel strong{font-size:16px}
-
-    footer{
-      width:min(1180px,94%);
-      margin:28px auto 0;
-      text-align:center;
-      color:var(--muted);
-      font-size:13px;
-      padding:16px;
-    }
-
-    @media(max-width:768px){
-      .topo{
-        padding:12px 10px 10px;
-      }
-      .topo h1{
-        font-size:17px;
-      }
-      .topo .autor{
-        font-size:11px;
-        margin-bottom:8px;
-      }
-      .busca-wrap{
-        gap:6px;
-      }
-      .busca-wrap input{
-        height:38px;
-        font-size:13px;
-        padding:0 12px;
-      }
-      .btn-admin-top{
-        height:38px;
-        padding:0 11px;
-        font-size:12px;
-      }
-      .container{
-        width:96%;
-        margin-top:10px;
-      }
-      .marcas{
-        gap:7px;
-        padding-bottom:9px;
-      }
-      .marca-btn{
-        padding:8px 12px;
-        font-size:12px;
-      }
-      .grade{
-        grid-template-columns:repeat(3,1fr);
-        gap:8px;
-      }
-      .card{
-        min-height:0;
-        border-radius:13px;
-      }
-      .thumb{
-        height:78px;
-        padding:8px;
-      }
-      .thumb .pdf-icon{
-        width:42px;
-        height:52px;
-        border-radius:8px;
-        font-size:13px;
-      }
-      .card-body{
-        padding:7px;
-        gap:5px;
-      }
-      .tag{
-        font-size:9px;
-        padding:3px 6px;
-      }
-      .card h3{
-        font-size:11px;
-        line-height:1.15;
-        min-height:25px;
-        display:-webkit-box;
-        -webkit-line-clamp:2;
-        -webkit-box-orient:vertical;
-        overflow:hidden;
-      }
-      .preco{
-        font-size:11px;
-      }
-      .btn{
-        font-size:10px;
-        padding:7px 6px;
-        border-radius:9px;
-      }
-      .admin-actions{
-        grid-template-columns:1fr;
-        gap:5px;
-      }
-      .modal{
-        border-radius:18px;
-        padding:16px;
-      }
-    }
-
-    @media(max-width:390px){
-      .grade{
-        grid-template-columns:repeat(2,1fr);
-      }
-      .thumb{height:86px}
-      .card h3{font-size:12px}
-    }
-  </style>
+@media(max-width:850px){.topbar{justify-content:center;text-align:center}.logo{justify-content:center}.nav{justify-content:center}.brand-bar-inner{justify-content:center;text-align:center}.brand-title{width:100%}.benefits,.brand-shortcuts{justify-content:center}.search-box input,.search-box select,.suggest-wrap{min-width:100%;flex-basis:100%}.catalog-panel{padding-left:14px;padding-right:14px}.form-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-
-  <header class="topo">
-    <h1>Desenvolvendo soluções, criando possibilidades.</h1>
-    <div class="autor">Deverli Oliveira</div>
-    <div class="busca-wrap">
-      <input id="busca" type="search" placeholder="Pesquisar catálogo, marca ou preço..." oninput="filtrarCatalogos()" />
-      <button class="btn-admin-top" onclick="abrirLoginAdmin()" id="btnAdminTopo">Admin</button>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="admin-panel">
-      <div class="admin-panel-top">
-        <strong>Painel administrador ativo</strong>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn btn-save" onclick="abrirModalCatalogo()">+ Adicionar catálogo</button>
-          <button class="btn btn-cancel" onclick="sairAdmin()">Sair do admin</button>
-        </div>
-      </div>
-    </section>
-
-    <nav class="marcas" id="marcas"></nav>
-    <section class="grade" id="grade"></section>
-  </main>
-
-  <footer>
-    © 2026 Deverli Oliveira • Todos os direitos reservados
-  </footer>
-
-  <div class="modal-bg" id="modalLogin">
-    <div class="modal">
-      <h2>Acesso administrador</h2>
-      <div class="form-grid">
-        <div>
-          <label>E-mail</label>
-          <input id="adminEmail" type="email" placeholder="Digite o e-mail admin" />
-        </div>
-        <div>
-          <label>Senha</label>
-          <input id="adminSenha" type="password" placeholder="Digite a senha admin" />
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-cancel" onclick="fecharLoginAdmin()">Cancelar</button>
-        <button class="btn btn-save" onclick="entrarAdmin()">Entrar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-bg" id="modalCatalogo">
-    <div class="modal">
-      <h2 id="tituloModalCatalogo">Adicionar catálogo</h2>
-      <input type="hidden" id="catalogoId" />
-      <div class="form-grid">
-        <div>
-          <label>Nome do catálogo</label>
-          <input id="catalogoNome" placeholder="Ex: Catálogo TATU Peças" />
-        </div>
-        <div>
-          <label>Marca</label>
-          <select id="catalogoMarca">
-            <option value="TATU">TATU</option>
-            <option value="BALDAN">BALDAN</option>
-            <option value="JACTO">JACTO</option>
-            <option value="JUMIL">JUMIL</option>
-            <option value="STARA">STARA</option>
-          </select>
-        </div>
-        <div>
-          <label>Preço</label>
-          <input id="catalogoPreco" placeholder="Ex: 49,90" inputmode="decimal" />
-        </div>
-        <div>
-          <label>URL do arquivo PDF</label>
-          <input id="catalogoArquivo" placeholder="Cole aqui o link do PDF" />
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-cancel" onclick="fecharModalCatalogo()">Cancelar</button>
-        <button class="btn btn-save" onclick="salvarCatalogo()">Salvar</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const SUPABASE_URL = 'https://wxagsbsfrlenriedzeuv.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_9E6BgYYsC1W0tyGijpARTw_LHXQ8bQI';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const ADMIN_EMAIL = 'admin@admin.com';
-    const ADMIN_SENHA = '123456';
-
-    const marcasFixas = ['TODOS','TATU','BALDAN','JACTO','JUMIL','STARA'];
-    let marcaAtual = 'TODOS';
-    let catalogos = [];
-
-    const exemplos = [
-      { id:'local-1', nome:'Catálogo TATU', marca:'TATU', preco:'0,00', arquivo_url:'#' },
-      { id:'local-2', nome:'Catálogo BALDAN', marca:'BALDAN', preco:'0,00', arquivo_url:'#' }
-    ];
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      if(localStorage.getItem('admin_catalogos') === 'sim') ativarAdmin();
-      renderMarcas();
-      await carregarCatalogos();
-    });
-
-    function renderMarcas(){
-      const nav = document.getElementById('marcas');
-      nav.innerHTML = '';
-      marcasFixas.forEach(marca => {
-        const btn = document.createElement('button');
-        btn.className = 'marca-btn' + (marca === marcaAtual ? ' ativa' : '');
-        btn.textContent = marca;
-        btn.onclick = () => {
-          marcaAtual = marca;
-          renderMarcas();
-          filtrarCatalogos();
-        };
-        nav.appendChild(btn);
-      });
-    }
-
-    async function carregarCatalogos(){
-      try{
-        const { data, error } = await supabaseClient
-          .from('catalogos')
-          .select('*')
-          .order('id', { ascending:false });
-
-        if(error) throw error;
-        catalogos = Array.isArray(data) && data.length ? data : exemplos;
-      }catch(err){
-        catalogos = exemplos;
-        console.warn('Não foi possível carregar do Supabase:', err.message);
-      }
-      filtrarCatalogos();
-    }
-
-    function filtrarCatalogos(){
-      const termo = (document.getElementById('busca').value || '').toLowerCase().trim();
-      const lista = catalogos.filter(cat => {
-        const marca = (cat.marca || '').toUpperCase();
-        const texto = `${cat.nome || ''} ${cat.marca || ''} ${cat.preco || ''}`.toLowerCase();
-        const passaMarca = marcaAtual === 'TODOS' || marca === marcaAtual;
-        const passaBusca = !termo || texto.includes(termo);
-        return passaMarca && passaBusca;
-      });
-      renderCatalogos(lista);
-    }
-
-    function renderCatalogos(lista){
-      const grade = document.getElementById('grade');
-      grade.innerHTML = '';
-
-      if(!lista.length){
-        grade.innerHTML = '<div class="vazio">Nenhum catálogo encontrado.</div>';
-        return;
-      }
-
-      lista.forEach(cat => {
-        const id = cat.id;
-        const nome = escapar(cat.nome || 'Catálogo sem nome');
-        const marca = escapar((cat.marca || 'GERAL').toUpperCase());
-        const preco = formatarPreco(cat.preco);
-        const arquivo = cat.arquivo_url || cat.arquivo || cat.url || '#';
-
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="thumb"><div class="pdf-icon">PDF</div></div>
-          <div class="card-body">
-            <span class="tag">${marca}</span>
-            <h3 title="${nome}">${nome}</h3>
-            <div class="preco">${preco}</div>
-            <div class="card-actions">
-              <a class="btn btn-ver" href="${arquivo}" target="_blank" rel="noopener">Ver PDF</a>
-              <div class="admin-actions">
-                <button class="btn btn-edit" onclick="editarCatalogo('${id}')">Editar</button>
-                <button class="btn btn-del" onclick="excluirCatalogo('${id}')">Excluir</button>
-              </div>
+<header>
+    <div class="container topbar">
+        <a class="logo" href="#catalogos">
+            <img src="https://i.ibb.co/gHjrM61/LOGO-DEVERLI-OLIVEIRA.jpg" alt="Logo Deverli Oliveira">
+            <div>
+                <h1>Desenvolvendo soluções, criando possibilidades.</h1>
+                <p>Central de catálogos agrícolas</p>
             </div>
-          </div>
-        `;
-        grade.appendChild(card);
-      });
-    }
+        </a>
+        <nav class="nav">
+            <a href="#catalogos">Catálogos</a>
+            <a href="#contato">Contato</a>
+            <a class="whatsapp" href="https://wa.me/5514998510406" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <button class="login" onclick="openAdmin()"><i class="fa-solid fa-user-lock"></i> Admin</button>
+        </nav>
+    </div>
+    <div class="brand-bar">
+        <div class="container brand-bar-inner">
+            <div class="brand-shortcuts" aria-label="Principais marcas">
+                <span class="brand-title">Principais marcas</span>
+                <button type="button" onclick="openAllCatalogs()">TODOS</button>
+                <button type="button" onclick="openBrandFolder('TATU')">TATU</button>
+                <button type="button" onclick="openBrandFolder('BALDAN')">BALDAN</button>
+                <button type="button" onclick="openBrandFolder('JACTO')">JACTO</button>
+                <button type="button" onclick="openBrandFolder('JUMIL')">JUMIL</button>
+                <button type="button" onclick="openBrandFolder('STARA')">STARA</button>
+            </div>
+            <div class="benefits">
+                <span class="benefit"><i class="fa-solid fa-file-pdf"></i> PDFs por marca</span>
+                <span class="benefit"><i class="fa-solid fa-download"></i> Download direto</span>
+                <span class="benefit"><i class="fa-solid fa-mobile-screen"></i> Celular e computador</span>
+            </div>
+        </div>
+    </div>
+</header>
 
-    function formatarPreco(valor){
-      if(valor === null || valor === undefined || valor === '') return 'R$ 0,00';
-      const texto = String(valor).replace('R$','').trim();
-      return texto.startsWith('R$') ? texto : `R$ ${texto}`;
-    }
+<section class="search-area">
+    <div class="container search-box">
+        <div class="suggest-wrap">
+            <input type="text" id="search" placeholder="Buscar catálogo, marca, categoria, máquina ou arquivo..." oninput="renderCatalogs(); renderSuggestions();" onfocus="renderSuggestions();" autocomplete="off">
+            <div id="suggestions" class="suggestions"></div>
+        </div>
+        <select id="filter" onchange="renderCatalogs()">
+            <option value="">Todas as categorias</option>
+            <option value="Plantadeiras">Plantadeiras</option>
+            <option value="Ensiladeiras">Ensiladeiras</option>
+            <option value="Colhedoras">Colhedoras</option>
+            <option value="Pulverizadores">Pulverizadores</option>
+            <option value="Tratores">Tratores</option>
+            <option value="Implementos">Implementos</option>
+            <option value="Manuais Técnicos">Manuais Técnicos</option>
+            <option value="Outros">Outros</option>
+        </select>
+    </div>
+</section>
 
-    function escapar(str){
-      return String(str)
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'",'&#039;');
-    }
+<main class="site-middle">
+    <section id="catalogos" class="container catalog-panel">
+        <div class="toolbar">
+            <div>
+                <div class="path" id="brandPath">Pastas por marca</div>
+                <div class="status" id="statusLine">Carregando catálogos...</div>
+            </div>
+            <button class="back" id="backBrandBtn" onclick="clearFilters()" style="display:none"><i class="fa-solid fa-arrow-left"></i> Voltar para marcas</button>
+        </div>
+        <div class="section-title" id="sectionTitle">Marcas disponíveis</div>
+        <div id="brandFoldersGrid" class="catalog-grid"></div>
+        <div id="catalogGrid" class="catalog-grid"></div>
+    </section>
+</main>
 
-    function abrirLoginAdmin(){
-      if(document.body.classList.contains('admin-on')){
-        abrirModalCatalogo();
-        return;
-      }
-      document.getElementById('modalLogin').classList.add('ativo');
-    }
+<footer id="contato">
+    <div class="footer-grid">
+        <div>
+            <h3>Contato</h3>
+            <p><strong>Deverli Oliveira</strong><br>📞 (14) 99851-0406<br>✉️ oliveiradeverli1@gmail.com</p>
+        </div>
+    </div>
+    <div class="legal">© 2026 Todos os direitos reservados.<br>Criador: <strong>Deverli Oliveira</strong>.</div>
+</footer>
 
-    function fecharLoginAdmin(){
-      document.getElementById('modalLogin').classList.remove('ativo');
-    }
+<button id="btnTopo" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Voltar ao topo"><i class="fa-solid fa-arrow-up"></i></button>
 
-    function entrarAdmin(){
-      const email = document.getElementById('adminEmail').value.trim().toLowerCase();
-      const senha = document.getElementById('adminSenha').value.trim();
+<div class="modal" id="adminModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h2><i class="fa-solid fa-user-lock"></i> Painel Admin</h2>
+            <button class="close" onclick="closeAdmin()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="login-row" id="loginRow">
+                <input type="password" id="adminPass" placeholder="Senha do administrador">
+                <button class="btn primary" onclick="adminLogin()">Entrar</button>
+            </div>
+            <div class="admin-area" id="adminArea">
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Marca</label>
+                        <input id="admMarca" placeholder="Ex: TATU" oninput="this.value=this.value.toUpperCase()">
+                    </div>
+                    <div class="field">
+                        <label>Categoria</label>
+                        <select id="admCategoria">
+                            <option value="Plantadeiras">Plantadeiras</option>
+                            <option value="Ensiladeiras">Ensiladeiras</option>
+                            <option value="Colhedoras">Colhedoras</option>
+                            <option value="Pulverizadores">Pulverizadores</option>
+                            <option value="Tratores">Tratores</option>
+                            <option value="Implementos">Implementos</option>
+                            <option value="Manuais Técnicos">Manuais Técnicos</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Preço R$</label>
+                        <input id="admPreco" placeholder="Ex: 29,90" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label>Link Mercado Pago</label>
+                        <input id="admPagamento" placeholder="Cole aqui o link de pagamento">
+                    </div>
+                    <div class="field full">
+                        <label>Nome do catálogo</label>
+                        <input id="admNome" placeholder="Ex: Catálogo Plantadeira TATU">
+                    </div>
+                    <div class="field full">
+                        <label>Arquivo PDF</label>
+                        <input id="admPdf" type="file" accept="application/pdf,.pdf">
+                    </div>
+                    <div class="field full">
+                        <label>Link do PDF manual, opcional</label>
+                        <input id="admArquivo" placeholder="Use somente se o PDF já estiver hospedado em outro lugar">
+                    </div>
+                    <div class="field full">
+                        <label>Descrição</label>
+                        <textarea id="admDescricao" placeholder="Descrição rápida do catálogo"></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn secondary" onclick="clearAdminForm()">Limpar</button>
+                    <button class="btn primary" onclick="saveCatalog()"><i class="fa-solid fa-cloud-arrow-up"></i> Enviar PDF e salvar</button>
+                    <button class="btn danger" onclick="adminLogout()">Sair</button>
+                </div>
+                <div class="small-note" id="adminStatus"></div><div class="small-note">Para venda simples, crie um link de pagamento no Mercado Pago e cole o link completo no campo <b>Link Mercado Pago</b>, começando com <b>https://</b>. Para o upload funcionar, mantenha no Supabase Storage um bucket chamado <b>catalogos</b>.</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-      if(email === ADMIN_EMAIL && senha === ADMIN_SENHA){
-        localStorage.setItem('admin_catalogos','sim');
-        ativarAdmin();
-        fecharLoginAdmin();
-      }else{
-        alert('E-mail ou senha incorretos.');
-      }
-    }
+<script>
+const SUPABASE_URL = "https://wxagsbsfrlenriedzeuv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9E6BgYYsC1W0tyGijpARTw_LHXQ8bQI";
+const TABLE_NAME = "catalogos";
+const STORAGE_BUCKET = "catalogos";
+const ADMIN_PASSWORD = "1234";
 
-    function ativarAdmin(){
-      document.body.classList.add('admin-on');
-      document.getElementById('btnAdminTopo').textContent = '+ Catálogo';
-    }
+let db = null;
+let catalogos = [];
+let usingSupabase = false;
+let isAdmin = localStorage.getItem('catalogos_admin_ok') === '1';
+const marcasFixas = ['TATU','BALDAN','JACTO','JUMIL','STARA','JAN','KUHN','MASSEY FERGUSON','JOHN DEERE','NEW HOLLAND','CASE','VALTRA','AGRALE','SÃO JOSÉ','LAVRALE','NOGUEIRA','MIAC','PINHALENSE','CIVEMASA','VENCE TUDO'];
+let marcaAtual = new URLSearchParams(window.location.search).get("marca") || "";
 
-    function sairAdmin(){
-      localStorage.removeItem('admin_catalogos');
-      document.body.classList.remove('admin-on');
-      document.getElementById('btnAdminTopo').textContent = 'Admin';
-    }
-
-    function abrirModalCatalogo(cat = null){
-      document.getElementById('tituloModalCatalogo').textContent = cat ? 'Editar catálogo' : 'Adicionar catálogo';
-      document.getElementById('catalogoId').value = cat?.id || '';
-      document.getElementById('catalogoNome').value = cat?.nome || '';
-      document.getElementById('catalogoMarca').value = (cat?.marca || 'TATU').toUpperCase();
-      document.getElementById('catalogoPreco').value = cat?.preco || '';
-      document.getElementById('catalogoArquivo').value = cat?.arquivo_url || cat?.arquivo || cat?.url || '';
-      document.getElementById('modalCatalogo').classList.add('ativo');
-    }
-
-    function fecharModalCatalogo(){
-      document.getElementById('modalCatalogo').classList.remove('ativo');
-    }
-
-    function editarCatalogo(id){
-      const cat = catalogos.find(c => String(c.id) === String(id));
-      if(!cat) return alert('Catálogo não encontrado.');
-      abrirModalCatalogo(cat);
-    }
-
-    async function salvarCatalogo(){
-      const id = document.getElementById('catalogoId').value;
-      const nome = document.getElementById('catalogoNome').value.trim();
-      const marca = document.getElementById('catalogoMarca').value.trim().toUpperCase();
-      const preco = document.getElementById('catalogoPreco').value.trim();
-      const arquivo_url = document.getElementById('catalogoArquivo').value.trim();
-
-      if(!nome || !marca || !arquivo_url){
-        alert('Preencha nome, marca e URL do PDF.');
-        return;
-      }
-
-      const payload = { nome, marca, preco, arquivo_url };
-
-      try{
-        if(id && !String(id).startsWith('local-')){
-          const { error } = await supabaseClient.from('catalogos').update(payload).eq('id', id);
-          if(error) throw error;
-        }else if(id && String(id).startsWith('local-')){
-          catalogos = catalogos.map(c => String(c.id) === String(id) ? { ...c, ...payload } : c);
+function escapeHtml(value){return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
+function escapeJs(value){return String(value||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
+function normalizeText(value){return String(value||"").normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]/g,'').toUpperCase();}
+function normalizeBrandName(brand){return String(brand||"Sem marca").trim()||"Sem marca";}
+function parseMoney(value){
+    const cleaned = String(value||'').replace(/\./g,'').replace(',', '.').replace(/[^0-9.]/g,'');
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : 0;
+}
+function formatMoney(value){
+    const n = Number(value||0);
+    return n.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+}
+function setStatus(msg){document.getElementById('statusLine').textContent = msg;}
+function getLocalCatalogs(){try{return JSON.parse(localStorage.getItem('catalogos_local')||'[]')}catch(e){return []}}
+function saveLocalCatalogs(list){localStorage.setItem('catalogos_local', JSON.stringify(list));}
+function mapCatalog(row){
+    const arquivo = row.arquivo_url || row.arquivo || row.url || row.link || row.path || '';
+    return {
+        id: String(row.id || row.uuid || Date.now()),
+        nome: row.nome || row.titulo || 'Catálogo sem nome',
+        marca: (row.marca || 'OUTROS').toUpperCase(),
+        categoria: row.categoria || 'Outros',
+        arquivo: arquivo,
+        descricao: row.descricao || row.observacao || 'Catálogo técnico disponível para consulta e download.',
+        preco: Number(row.preco || row.valor || 0),
+        pagamento_url: row.pagamento_url || row.link_pagamento || row.checkout_url || '',
+        origem: row.origem || 'supabase'
+    };
+}
+function marcaCombina(marcaCatalogo, marcaSelecionada){
+    if(!marcaSelecionada || normalizeText(marcaSelecionada)==='TODOS') return true;
+    const catalog = normalizeText(marcaCatalogo);
+    const selected = normalizeText(marcaSelecionada);
+    const aliases = {TATU:['TATU','MARCHESAN','TATUMARCHESAN'],BALDAN:['BALDAN'],JACTO:['JACTO'],JUMIL:['JUMIL'],STARA:['STARA']};
+    const termos = aliases[selected] || [selected];
+    return termos.some(term => catalog === term || catalog.includes(term) || term.includes(catalog));
+}
+function iconByCategory(category){
+    const icons={"Plantadeiras":"fa-seedling","Ensiladeiras":"fa-tractor","Colhedoras":"fa-wheat-awn","Pulverizadores":"fa-spray-can-sparkles","Tratores":"fa-tractor","Implementos":"fa-gears","Manuais Técnicos":"fa-book","Outros":"fa-folder-open"};
+    return icons[category]||"fa-folder-open";
+}
+async function init(){
+    try{
+        if(window.supabase && SUPABASE_URL && SUPABASE_KEY){
+            db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            await loadFromSupabase();
         }else{
-          const { error } = await supabaseClient.from('catalogos').insert([payload]);
-          if(error) throw error;
+            loadLocalOnly();
         }
-        fecharModalCatalogo();
-        await carregarCatalogos();
-      }catch(err){
-        alert('Erro ao salvar. Verifique se a tabela catalogos tem as colunas: nome, marca, preco, arquivo_url.');
-        console.error(err);
-      }
+    }catch(e){
+        console.warn(e);
+        loadLocalOnly();
     }
+    renderCatalogs();
+}
+async function loadFromSupabase(){
+    const { data, error } = await db.from(TABLE_NAME).select('*').order('created_at', { ascending:false });
+    if(error) throw error;
+    usingSupabase = true;
+    const local = getLocalCatalogs().map(x => ({...x, origem:'local'}));
+    catalogos = [...(data||[]).map(mapCatalog), ...local.map(mapCatalog)];
+    setStatus('Catálogos disponíveis.');
+}
+function loadLocalOnly(){
+    usingSupabase = false;
+    catalogos = getLocalCatalogs().map(mapCatalog);
+    setStatus(catalogos.length ? 'Catálogos disponíveis.' : 'Nenhum catálogo cadastrado ainda.');
+}
+function openBrandFolder(brand){
+    marcaAtual=String(brand||'').toUpperCase();
+    document.getElementById('search').value="";
+    document.getElementById('filter').value="";
+    history.replaceState(null,'',window.location.pathname + '?marca=' + encodeURIComponent(marcaAtual));
+    renderCatalogs();
+    document.getElementById('catalogos').scrollIntoView({behavior:'smooth',block:'start'});
+}
 
-    async function excluirCatalogo(id){
-      if(!confirm('Deseja excluir este catálogo?')) return;
-
-      try{
-        if(String(id).startsWith('local-')){
-          catalogos = catalogos.filter(c => String(c.id) !== String(id));
-          filtrarCatalogos();
-          return;
-        }
-
-        const { error } = await supabaseClient.from('catalogos').delete().eq('id', id);
-        if(error) throw error;
-        await carregarCatalogos();
-      }catch(err){
-        alert('Erro ao excluir catálogo.');
-        console.error(err);
-      }
-    }
-
-    document.addEventListener('keydown', e => {
-      if(e.key === 'Escape'){
-        fecharLoginAdmin();
-        fecharModalCatalogo();
-      }
+function openAllCatalogs(){
+    marcaAtual="TODOS";
+    document.getElementById('search').value="";
+    document.getElementById('filter').value="";
+    history.replaceState(null,'',window.location.pathname + '?marca=TODOS');
+    renderCatalogs();
+    document.getElementById('catalogos').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function clearFilters(){
+    marcaAtual="";
+    document.getElementById('search').value="";
+    document.getElementById('filter').value="";
+    history.replaceState(null,'',window.location.pathname);
+    renderCatalogs();
+}
+function openCategory(cat){
+    marcaAtual="";
+    document.getElementById('filter').value=cat;
+    document.getElementById('search').value="";
+    renderCatalogs();
+    document.getElementById('catalogos').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderBrandFolders(){
+    const grid=document.getElementById('brandFoldersGrid');
+    const groups={};
+    grid.innerHTML='';
+    catalogos.forEach(c=>{
+        const brand=normalizeBrandName(c.marca).toUpperCase();
+        if(!groups[brand]) groups[brand]=[];
+        groups[brand].push(c);
     });
-  </script>
+    marcasFixas.forEach(brand=>{
+        const b=normalizeBrandName(brand).toUpperCase();
+        if(!groups[b]) groups[b]=[];
+    });
+    const brands=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+    brands.forEach(brand=>{
+        const count=groups[brand].length;
+        const categories=count ? [...new Set(groups[brand].map(c=>c.categoria))].join(', ') : 'Clique para abrir a pasta da marca';
+        grid.innerHTML+=`<div class="brand-folder" onclick="openBrandFolder('${escapeJs(brand)}')"><div class="folder-icon"><i class="fa-solid fa-folder-open"></i></div><h3>${escapeHtml(brand)}</h3><p>${escapeHtml(categories)}</p><span class="count">${count} catálogo(s)</span></div>`;
+    });
+}
+function renderSuggestions(){
+    const box=document.getElementById('suggestions');
+    const input=document.getElementById('search');
+    const term=input.value.trim().toLowerCase();
+    if(term.length < 1){box.style.display='none';box.innerHTML='';return;}
+    const items=[];
+    const added=new Set();
+    function add(label,type,value,icon){
+        const key=(type+'|'+label).toLowerCase();
+        if(added.has(key) || items.length>=10) return;
+        added.add(key);
+        items.push({label,type,value,icon});
+    }
+    catalogos.forEach(c=>{
+        if(String(c.marca).toLowerCase().includes(term)) add(c.marca,'Marca',c.marca,'fa-folder-open');
+        if(String(c.categoria).toLowerCase().includes(term)) add(c.categoria,'Categoria',c.categoria,'fa-tags');
+        if(String(c.nome).toLowerCase().includes(term)) add(c.nome,'Catálogo',c.id,'fa-file-pdf');
+        if(String(c.arquivo).toLowerCase().includes(term)) add(c.arquivo,'Arquivo',c.id,'fa-file');
+    });
+    marcasFixas.forEach(b=>{ if(String(b).toLowerCase().includes(term)) add(b,'Marca',b,'fa-folder-open'); });
+    if(items.length===0){box.style.display='none';box.innerHTML='';return;}
+    box.innerHTML=items.map(item=>`<div class="suggestion-item" onclick="selectSuggestion('${escapeJs(item.value)}','${escapeJs(item.type)}')"><i class="fa-solid ${item.icon}"></i><div>${escapeHtml(item.label)}<small>${escapeHtml(item.type)}</small></div></div>`).join('');
+    box.style.display='block';
+}
+function selectSuggestion(value,type){
+    const box=document.getElementById('suggestions');
+    if(type==='Marca') openBrandFolder(value);
+    else if(type==='Categoria') openCategory(value);
+    else {
+        const c = catalogos.find(x => String(x.id) === String(value));
+        if(c){
+            document.getElementById('search').value = c.nome;
+            marcaAtual = c.marca;
+            renderCatalogs();
+            setTimeout(()=>{
+                const card = document.querySelector(`[data-catalog-id="${CSS.escape(String(c.id))}"]`);
+                if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.style.boxShadow='0 0 35px rgba(245,130,32,.65)';setTimeout(()=>card.style.boxShadow='',2500);}
+            },250);
+        }
+    }
+    if(box) box.style.display='none';
+}
+document.addEventListener('click', function(e){
+    const wrap=document.querySelector('.suggest-wrap');
+    const box=document.getElementById('suggestions');
+    if(wrap && box && !wrap.contains(e.target)) box.style.display='none';
+});
+function renderCatalogs(){
+    renderBrandFolders();
+    const brandGrid=document.getElementById('brandFoldersGrid');
+    const grid=document.getElementById('catalogGrid');
+    const sectionTitle=document.getElementById('sectionTitle');
+    const search=document.getElementById('search').value.toLowerCase().trim();
+    const filter=document.getElementById('filter').value;
+    const brandPath=document.getElementById('brandPath');
+    const backBtn=document.getElementById('backBrandBtn');
+    brandGrid.style.display = (marcaAtual || search.length > 0 || filter) ? 'none' : 'grid';
+    document.querySelectorAll('.brand-shortcuts button').forEach(btn=>{
+        const txt = String(btn.textContent||'').trim().toUpperCase();
+        btn.classList.toggle('active-brand', marcaAtual && normalizeText(txt)===normalizeText(marcaAtual));
+    });
+    const filtered=catalogos.filter(c=>{
+        const text=`${c.nome} ${c.marca} ${c.categoria} ${c.arquivo} ${c.descricao}`.toLowerCase();
+        return (search==='' || text.includes(search)) && (filter==='' || c.categoria===filter) && marcaCombina(c.marca, marcaAtual);
+    });
+    grid.innerHTML='';
+    if(!marcaAtual && search.length===0 && filter===''){
+        brandPath.innerHTML='Escolha uma marca ou veja todos os catálogos';
+        sectionTitle.innerHTML='Marcas disponíveis';
+        backBtn.style.display='none';
+        return;
+    }
+    backBtn.style.display='inline-flex';
+    sectionTitle.innerHTML='Catálogos disponíveis';
+    if(marcaAtual) brandPath.innerHTML = normalizeText(marcaAtual)==='TODOS' ? 'Todos os catálogos' : `<strong>${escapeHtml(marcaAtual)}</strong>`;
+    else if(filter) brandPath.innerHTML=`Mostrando somente: <strong>${escapeHtml(filter)}</strong>`;
+    else brandPath.innerHTML=`Resultado da busca: <strong>${escapeHtml(search)}</strong>`;
+    if(filtered.length===0){
+        grid.innerHTML=`<div class="empty">Nenhum PDF encontrado para esta seleção.</div>`;
+        return;
+    }
+    filtered.forEach(c=>{
+        const arquivo = c.arquivo || '#';
+        const preco = Number(c.preco || 0);
+        const hasPayment = !!String(c.pagamento_url || '').trim();
+        const isPaid = preco > 0 || hasPayment;
+        const adminDelete = isAdmin ? `<button class="delete" onclick="deleteCatalog('${escapeJs(c.id)}','${escapeJs(c.origem||'supabase')}')"><i class="fa-solid fa-trash"></i> Excluir</button>` : '';
+        const priceLine = isPaid
+            ? `<div class="price-line"><span><i class="fa-solid fa-lock"></i> Catálogo pago</span><strong>${preco > 0 ? formatMoney(preco) : 'Pagamento obrigatório'}</strong></div>`
+            : `<div class="download-line"><span><i class="fa-solid fa-file-pdf"></i> PDF disponível</span><strong><i class="fa-solid fa-download"></i> Download liberado</strong></div>`;
+
+        let actionButtons = '';
+        if(isPaid){
+            const buyDisabled = hasPayment ? '' : 'style="pointer-events:none;opacity:.55"';
+            const adminAccess = isAdmin ? `<a class="view" href="${escapeHtml(arquivo)}" target="_blank"><i class="fa-solid fa-eye"></i> Ver PDF Admin</a>` : `<button class="locked" type="button"><i class="fa-solid fa-lock"></i> Download após pagamento</button>`;
+            actionButtons = `<a class="buy" href="${escapeHtml(c.pagamento_url || '#')}" target="_blank" rel="noopener" ${buyDisabled}><i class="fa-solid fa-cart-shopping"></i> Comprar agora</a>${adminAccess}`;
+        }else{
+            const disabled = !c.arquivo ? 'style="pointer-events:none;opacity:.55"' : '';
+            actionButtons = `<a class="open" href="${escapeHtml(arquivo)}" download ${disabled}><i class="fa-solid fa-download"></i> Baixar catálogo</a><a class="view" href="${escapeHtml(arquivo)}" target="_blank" ${disabled}><i class="fa-solid fa-eye"></i> Visualizar</a>`;
+        }
+        grid.innerHTML+=`<div class="card" data-catalog-id="${escapeHtml(c.id)}"><div class="card-icon"><i class="fa-solid ${iconByCategory(c.categoria)}"></i></div><span class="tag">${escapeHtml(c.categoria)}</span><h3>${escapeHtml(c.nome)}</h3><p><b>Marca:</b> ${escapeHtml(c.marca)}</p><p>${escapeHtml(c.descricao)}</p>${priceLine}<div class="actions">${actionButtons}${adminDelete}</div></div>`;
+    });
+}
+function openAdmin(){
+    document.getElementById('adminModal').classList.add('show');
+    refreshAdminView();
+}
+function closeAdmin(){document.getElementById('adminModal').classList.remove('show');}
+function refreshAdminView(){
+    document.getElementById('loginRow').style.display = isAdmin ? 'none' : 'flex';
+    document.getElementById('adminArea').classList.toggle('show', isAdmin);
+    document.getElementById('adminStatus').textContent = usingSupabase ? 'Conectado ao Supabase. Bucket usado para PDFs: ' + STORAGE_BUCKET + '.' : 'Supabase indisponível. Conecte o Supabase para enviar PDFs.';
+}
+function adminLogin(){
+    const pass=document.getElementById('adminPass').value;
+    if(pass!==ADMIN_PASSWORD){alert('Senha incorreta.');return;}
+    isAdmin=true;
+    localStorage.setItem('catalogos_admin_ok','1');
+    refreshAdminView();
+    renderCatalogs();
+}
+function adminLogout(){
+    isAdmin=false;
+    localStorage.removeItem('catalogos_admin_ok');
+    refreshAdminView();
+    renderCatalogs();
+}
+function clearAdminForm(){
+    ['admMarca','admNome','admArquivo','admDescricao','admPreco','admPagamento'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('admCategoria').value='Plantadeiras';
+    const pdfInput=document.getElementById('admPdf');
+    if(pdfInput) pdfInput.value='';
+}
+function safeFileName(name){
+    const ext = (name.split('.').pop() || 'pdf').toLowerCase();
+    const base = name.replace(/\.[^/.]+$/, '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase() || 'catalogo';
+    return `${base}.${ext === 'pdf' ? 'pdf' : ext}`;
+}
+async function uploadPdfToSupabase(file, marca){
+    if(!db) throw new Error('Supabase não conectado.');
+    if(!file) return '';
+    if(file.type && file.type !== 'application/pdf') throw new Error('Selecione somente arquivo PDF.');
+    const folder = normalizeText(marca) || 'OUTROS';
+    const path = `${folder}/${Date.now()}-${safeFileName(file.name)}`;
+    const { error: uploadError } = await db.storage.from(STORAGE_BUCKET).upload(path, file, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: 'application/pdf'
+    });
+    if(uploadError) throw uploadError;
+    const { data } = db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+    if(!data || !data.publicUrl) throw new Error('Upload feito, mas não consegui gerar a URL pública.');
+    return data.publicUrl;
+}
+async function saveCatalog(){
+    const pdfInput = document.getElementById('admPdf');
+    const file = pdfInput && pdfInput.files && pdfInput.files[0] ? pdfInput.files[0] : null;
+    const novo={
+        id: String(Date.now()),
+        marca: document.getElementById('admMarca').value.trim().toUpperCase(),
+        categoria: document.getElementById('admCategoria').value,
+        nome: document.getElementById('admNome').value.trim(),
+        arquivo_url: document.getElementById('admArquivo').value.trim(),
+        preco: parseMoney(document.getElementById('admPreco').value),
+        pagamento_url: document.getElementById('admPagamento').value.trim(),
+        descricao: document.getElementById('admDescricao').value.trim() || 'Catálogo técnico disponível para consulta e download.'
+    };
+    if(!novo.marca || !novo.nome){alert('Preencha marca e nome do catálogo.');return;}
+    if(!file && !novo.arquivo_url){alert('Escolha um PDF ou cole um link manual do PDF.');return;}
+    if(novo.preco > 0 && !novo.pagamento_url){alert('Se informar preço, cole também o link de pagamento do Mercado Pago.');return;}
+    if(novo.pagamento_url && !/^https?:\/\//i.test(novo.pagamento_url)){alert('O Link Mercado Pago precisa ser o link completo, começando com https://');return;}
+    const status=document.getElementById('adminStatus');
+    const saveBtn = document.querySelector('.form-actions .btn.primary');
+    if(saveBtn) { saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...'; }
+    try{
+        if(!db) throw new Error('Sem conexão com Supabase');
+        status.textContent = file ? 'Enviando PDF para o Supabase Storage...' : 'Salvando catálogo...';
+        if(file){
+            novo.arquivo_url = await uploadPdfToSupabase(file, novo.marca);
+        }
+        status.textContent = 'Salvando dados do catálogo...';
+        let { error } = await db.from(TABLE_NAME).insert([{marca:novo.marca,categoria:novo.categoria,nome:novo.nome,arquivo_url:novo.arquivo_url,descricao:novo.descricao,preco:novo.preco,pagamento_url:novo.pagamento_url}]);
+        if(error){
+            const retry = await db.from(TABLE_NAME).insert([{marca:novo.marca,categoria:novo.categoria,nome:novo.nome,arquivo:novo.arquivo_url,descricao:novo.descricao,preco:novo.preco,pagamento_url:novo.pagamento_url}]);
+            error = retry.error;
+        }
+        if(error) throw error;
+        status.textContent='Catálogo enviado e salvo no Supabase com sucesso.';
+        await loadFromSupabase();
+        clearAdminForm();
+        renderCatalogs();
+    }catch(e){
+        console.error(e);
+        status.textContent='Erro: ' + (e.message || 'não consegui enviar/salvar. Verifique bucket, políticas e tabela no Supabase.');
+        alert(status.textContent);
+    }finally{
+        if(saveBtn) { saveBtn.disabled = false; saveBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Enviar PDF e salvar'; }
+    }
+}
+async function deleteCatalog(id, origem){
+    if(!confirm('Excluir este catálogo?')) return;
+    try{
+        if(origem==='local'){
+            const local=getLocalCatalogs().filter(c=>String(c.id)!==String(id));
+            saveLocalCatalogs(local);
+            if(usingSupabase) await loadFromSupabase(); else loadLocalOnly();
+        }else if(db){
+            const { error } = await db.from(TABLE_NAME).delete().eq('id', id);
+            if(error) throw error;
+            await loadFromSupabase();
+        }
+    }catch(e){alert('Não consegui excluir. Verifique permissões do Supabase.');}
+    renderCatalogs();
+}
+window.addEventListener('scroll', function(){document.getElementById('btnTopo').style.display = window.scrollY > 300 ? 'block' : 'none';});
+if(window.location.hash === '#admin'){
+    setTimeout(()=>openAdmin(),300);
+}
+init();
+</script>
 </body>
 </html>
