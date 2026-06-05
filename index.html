@@ -397,7 +397,7 @@ function renderCatalogs(){
         const preco = Number(c.preco || 0);
         const hasPayment = !!String(c.pagamento_url || '').trim();
         const isPaid = preco > 0 || hasPayment;
-        const adminDelete = isAdmin ? `<button class="delete" onclick="deleteCatalog('${escapeJs(c.id)}','${escapeJs(c.origem||'supabase')}')"><i class="fa-solid fa-trash"></i> Excluir</button>` : '';
+        const adminDelete = '';
         const priceLine = isPaid
             ? `<div class="price-line"><span><i class="fa-solid fa-lock"></i> Catálogo pago</span><strong>${preco > 0 ? formatMoney(preco) : 'Pagamento obrigatório'}</strong></div>`
             : `<div class="download-line"><span><i class="fa-solid fa-file-pdf"></i> PDF disponível</span><strong><i class="fa-solid fa-download"></i> Download liberado</strong></div>`;
@@ -410,7 +410,7 @@ function renderCatalogs(){
             const disabled = !c.arquivo ? 'style="pointer-events:none;opacity:.55"' : '';
             actionButtons = `<a class="open" href="${escapeHtml(arquivo)}" download ${disabled}><i class="fa-solid fa-download"></i> Baixar catálogo</a><a class="view" href="${escapeHtml(arquivo)}" target="_blank" ${disabled}><i class="fa-solid fa-eye"></i> Visualizar</a>`;
         }
-        grid.innerHTML+=`<div class="card" data-catalog-id="${escapeHtml(c.id)}"><div class="card-icon"><i class="fa-solid ${iconByCategory(c.categoria)}"></i></div><span class="tag">${escapeHtml(c.categoria)}</span><h3>${escapeHtml(c.nome)}</h3><p><b>Marca:</b> ${escapeHtml(c.marca)}</p><p>${escapeHtml(c.descricao)}</p>${priceLine}<div class="actions">${actionButtons}${adminDelete}</div></div>`;
+        grid.innerHTML+=`<div class="card" data-catalog-id="${escapeHtml(c.id)}"><div class="card-icon"><i class="fa-solid ${iconByCategory(c.categoria)}"></i></div><span class="tag">${escapeHtml(c.categoria)}</span><h3>${escapeHtml(c.nome)}</h3><p><b>Marca:</b> ${escapeHtml(c.marca)}</p><p>${escapeHtml(c.descricao)}</p>${priceLine}<div class="actions">${actionButtons}</div></div>`;
     });
 }
 function openAdmin(){
