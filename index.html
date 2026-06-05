@@ -247,7 +247,7 @@ const ADMIN_PASSWORD = "1234";
 let db = null;
 let catalogos = [];
 let usingSupabase = false;
-let isAdmin = localStorage.getItem('catalogos_admin_ok') === '1';
+let isAdmin = false;
 const marcasFixas = ['TATU','BALDAN','JACTO','JUMIL','STARA','JAN','KUHN','MASSEY FERGUSON','JOHN DEERE','NEW HOLLAND','CASE','VALTRA','AGRALE','SÃO JOSÉ','LAVRALE','NOGUEIRA','MIAC','PINHALENSE','CIVEMASA','VENCE TUDO'];
 let marcaAtual = new URLSearchParams(window.location.search).get("marca") || "";
 
@@ -465,7 +465,7 @@ function renderCatalogs(){
         let actionButtons = '';
         if(isPaid){
             const buyDisabled = hasPayment ? '' : 'style="pointer-events:none;opacity:.55"';
-            const adminAccess = isAdmin ? `<a class="view" href="${escapeHtml(arquivo)}" target="_blank"><i class="fa-solid fa-eye"></i> Ver PDF Admin</a>` : `<button class="locked" type="button"><i class="fa-solid fa-lock"></i> Download após pagamento</button>`;
+            const adminAccess = isAdmin ? `<a class="view" href="${escapeHtml(arquivo)}" target="_blank"><i class="fa-solid fa-eye"></i> Ver PDF Admin</a>` : '';
             actionButtons = `<a class="buy" href="${escapeHtml(c.pagamento_url || '#')}" target="_blank" rel="noopener" ${buyDisabled}><i class="fa-solid fa-cart-shopping"></i> Comprar agora</a>${adminAccess}`;
         }else{
             const disabled = !c.arquivo ? 'style="pointer-events:none;opacity:.55"' : '';
@@ -488,13 +488,11 @@ function adminLogin(){
     const pass=document.getElementById('adminPass').value;
     if(pass!==ADMIN_PASSWORD){alert('Senha incorreta.');return;}
     isAdmin=true;
-    localStorage.setItem('catalogos_admin_ok','1');
     refreshAdminView();
     renderCatalogs();
 }
 function adminLogout(){
     isAdmin=false;
-    localStorage.removeItem('catalogos_admin_ok');
     refreshAdminView();
     renderCatalogs();
 }
