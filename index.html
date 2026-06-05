@@ -180,7 +180,7 @@ footer{background:#fff;color:var(--text);padding:38px 20px 22px;border-top:1px s
                     <button class="btn primary" onclick="saveCatalog()"><i class="fa-solid fa-cloud-arrow-up"></i> Enviar PDF e salvar</button>
                     <button class="btn danger" onclick="adminLogout()">Sair</button>
                 </div>
-                <div class="small-note" id="adminStatus"></div><div class="small-note">Para venda simples, crie um link de pagamento no Mercado Pago e cole no campo <b>Link Mercado Pago</b>. Para o upload funcionar, mantenha no Supabase Storage um bucket chamado <b>catalogos</b>.</div>
+                <div class="small-note" id="adminStatus"></div><div class="small-note">Para venda simples, crie um link de pagamento no Mercado Pago e cole o link completo no campo <b>Link Mercado Pago</b>, começando com <b>https://</b>. Para o upload funcionar, mantenha no Supabase Storage um bucket chamado <b>catalogos</b>.</div>
             </div>
         </div>
     </div>
@@ -394,16 +394,19 @@ function renderCatalogs(){
     }
     filtered.forEach(c=>{
         const arquivo = c.arquivo || '#';
-        const isPaid = Number(c.preco || 0) > 0;
-        const hasPayment = !!c.pagamento_url;
+        const preco = Number(c.preco || 0);
+        const hasPayment = !!String(c.pagamento_url || '').trim();
+        const isPaid = preco > 0 || hasPayment;
         const adminDelete = isAdmin ? `<button class="delete" onclick="deleteCatalog('${escapeJs(c.id)}','${escapeJs(c.origem||'supabase')}')"><i class="fa-solid fa-trash"></i> Excluir</button>` : '';
         const priceLine = isPaid
-            ? `<div class="price-line"><span><i class="fa-solid fa-lock"></i> Catálogo pago</span><strong>${formatMoney(c.preco)}</strong></div>`
+            ? `<div class="price-line"><span><i class="fa-solid fa-lock"></i> Catálogo pago</span><strong>${preco > 0 ? formatMoney(preco) : 'Pagamento obrigatório'}</strong></div>`
             : `<div class="download-line"><span><i class="fa-solid fa-file-pdf"></i> PDF disponível</span><strong><i class="fa-solid fa-download"></i> Download liberado</strong></div>`;
+
         let actionButtons = '';
-        if(isPaid && !isAdmin){
+        if(isPaid){
             const buyDisabled = hasPayment ? '' : 'style="pointer-events:none;opacity:.55"';
-            actionButtons = `<a class="buy" href="${escapeHtml(c.pagamento_url || '#')}" target="_blank" ${buyDisabled}><i class="fa-solid fa-cart-shopping"></i> Comprar agora</a><button class="locked" type="button"><i class="fa-solid fa-lock"></i> Download após pagamento</button>`;
+            const adminAccess = isAdmin ? `<a class="view" href="${escapeHtml(arquivo)}" target="_blank"><i class="fa-solid fa-eye"></i> Ver PDF Admin</a>` : `<button class="locked" type="button"><i class="fa-solid fa-lock"></i> Download após pagamento</button>`;
+            actionButtons = `<a class="buy" href="${escapeHtml(c.pagamento_url || '#')}" target="_blank" rel="noopener" ${buyDisabled}><i class="fa-solid fa-cart-shopping"></i> Comprar agora</a>${adminAccess}`;
         }else{
             const disabled = !c.arquivo ? 'style="pointer-events:none;opacity:.55"' : '';
             actionButtons = `<a class="open" href="${escapeHtml(arquivo)}" download ${disabled}><i class="fa-solid fa-download"></i> Baixar catálogo</a><a class="view" href="${escapeHtml(arquivo)}" target="_blank" ${disabled}><i class="fa-solid fa-eye"></i> Visualizar</a>`;
@@ -478,6 +481,7 @@ async function saveCatalog(){
     if(!novo.marca || !novo.nome){alert('Preencha marca e nome do catálogo.');return;}
     if(!file && !novo.arquivo_url){alert('Escolha um PDF ou cole um link manual do PDF.');return;}
     if(novo.preco > 0 && !novo.pagamento_url){alert('Se informar preço, cole também o link de pagamento do Mercado Pago.');return;}
+    if(novo.pagamento_url && !/^https?:\/\//i.test(novo.pagamento_url)){alert('O Link Mercado Pago precisa ser o link completo, começando com https://');return;}
     const status=document.getElementById('adminStatus');
     const saveBtn = document.querySelector('.form-actions .btn.primary');
     if(saveBtn) { saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...'; }
