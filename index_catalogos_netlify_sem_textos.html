@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogos Premium | Deverli Oliveira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --primary:#0f3d66;
+    --primary2:#1b75bb;
+    --accent:#f58220;
+    --text:#1f2937;
+    --muted:#667085;
+    --border:#d9e3ef;
+    --soft:#eef5fb;
+    --green:#16a34a;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Montserrat,Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}.container{max-width:1350px;margin:auto;padding:0 20px}
+header{background:#fff;position:sticky;top:0;z-index:999;border-bottom:1px solid var(--border);box-shadow:0 4px 20px rgba(15,61,102,.08)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0;flex-wrap:wrap}.logo{display:flex;align-items:center;gap:14px}.logo img{width:88px;height:58px;object-fit:contain;border-radius:8px}.logo h1{font-size:24px;color:var(--primary);font-weight:900;line-height:1}.logo p{color:var(--muted);font-size:12px;font-weight:700;margin-top:4px}.nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}.nav a,.nav button{border:1px solid var(--border);background:#fff;color:var(--primary);font-size:12px;font-weight:900;border-radius:999px;padding:10px 13px;cursor:pointer;transition:.2s}.nav a:hover,.nav button:hover{background:var(--soft);border-color:var(--primary2);transform:translateY(-1px)}.nav .whatsapp{background:#16a34a;color:#fff;border-color:#16a34a}.nav .login{background:var(--primary);color:#fff;border-color:var(--primary)}
+.brand-bar{border-top:1px solid #edf2f7;background:#f8fbff}.brand-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 20px;flex-wrap:wrap}.brand-shortcuts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.brand-title{color:var(--primary2);font-size:12px;font-weight:900;letter-spacing:.6px;text-transform:uppercase}.brand-shortcuts button{border:1px solid var(--border);background:#fff;color:var(--primary);font-size:11px;font-weight:900;border-radius:999px;padding:8px 12px;cursor:pointer;transition:.2s}.brand-shortcuts button:hover,.brand-shortcuts button.active-brand{background:var(--primary2);color:#fff;border-color:var(--primary2)}.benefits{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.benefit{font-size:12px;font-weight:800;color:var(--primary);background:#fff;border:1px solid var(--border);padding:8px 11px;border-radius:999px}
+.hero{padding:42px 0 34px;background:linear-gradient(180deg,#eef5fb,#f6f8fb);border-bottom:1px solid var(--border)}.hero-grid{display:grid;grid-template-columns:1fr;gap:22px}.hero-card,.plan{background:#fff;border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 8px 24px rgba(15,61,102,.08)}.hero h2{font-size:40px;line-height:1.12;color:var(--primary);margin-bottom:15px}.hero p{color:#425466;font-size:15px;line-height:1.75;max-width:850px}.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.cta{display:inline-flex;align-items:center;gap:8px;padding:14px 18px;border-radius:13px;font-weight:900;border:1px solid transparent;cursor:pointer}.cta.primary{background:var(--primary2);color:#fff}.cta.secondary{background:#fff;color:var(--primary);border-color:var(--border)}.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.badges span{display:inline-flex;align-items:center;gap:7px;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:9px 12px;font-size:12px;font-weight:800;color:var(--primary)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.stat{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:15px;text-align:center}.stat strong{display:block;color:var(--primary2);font-size:23px}.stat span{font-size:12px;color:var(--muted);font-weight:800}.plan h3{font-size:24px;color:var(--primary);margin-bottom:8px}.price{font-size:30px;line-height:1.2;font-weight:900;color:var(--primary2);margin:16px 0}.plan ul{list-style:none;display:grid;gap:12px;margin:18px 0}.plan li{font-size:14px;font-weight:800;color:var(--primary)}.plan li i{color:var(--green);margin-right:8px}
+.search-area{padding:20px 0;background:#fff;border-bottom:1px solid var(--border)}.search-box{display:flex;gap:12px;flex-wrap:wrap}.suggest-wrap{position:relative;flex:1;min-width:240px}.search-box input,.search-box select{width:100%;padding:15px;border:1px solid var(--border);border-radius:12px;font-size:15px;outline:none;font-weight:800;background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(15,61,102,.05)}.search-box select{flex:0 0 280px}.search-box input:focus,.search-box select:focus{border-color:var(--primary2);box-shadow:0 0 0 3px rgba(27,117,187,.12)}.suggestions{position:absolute;left:0;right:0;top:58px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 14px 28px rgba(15,61,102,.16);z-index:99999;display:none;overflow:hidden;max-height:330px;overflow-y:auto}.suggestion-item{padding:12px 14px;border-bottom:1px solid #edf2f7;cursor:pointer;color:var(--text);font-weight:800;display:flex;align-items:center;gap:10px}.suggestion-item:hover{background:var(--soft);color:var(--primary2)}.suggestion-item small{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-top:3px}
+.site-middle{padding:28px 0 42px}.catalog-panel{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 8px 24px rgba(15,61,102,.07)}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}.path{font-size:15px;font-weight:900;color:var(--primary)}.back{border:1px solid var(--border);background:#fff;color:var(--primary);padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer;transition:.2s}.back:hover{background:var(--soft);border-color:var(--primary2)}.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}.brand-folder,.card{background:#fff;border-radius:16px;padding:22px;border:1px solid var(--border);box-shadow:0 6px 18px rgba(15,61,102,.07);transition:.2s;position:relative;overflow:hidden}.brand-folder{cursor:pointer}.brand-folder:hover,.card:hover{transform:translateY(-3px);border-color:#b7d5ef;box-shadow:0 12px 26px rgba(15,61,102,.12)}.folder-icon,.card-icon{width:58px;height:58px;border-radius:16px;background:var(--soft);color:var(--primary2);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:14px;border:1px solid var(--border)}.brand-folder h3,.card h3{font-size:20px;color:var(--primary);margin-bottom:8px;word-break:break-word}.brand-folder p,.card p{font-size:14px;color:#425466;line-height:1.6;margin-bottom:12px;word-break:break-word}.tag,.count{display:inline-block;background:#eef5fb;color:var(--primary2);padding:7px 12px;border-radius:20px;font-size:12px;font-weight:900;border:1px solid #cfe3f7}.tag{margin-bottom:14px}.download-line{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f8fbff;border:1px solid var(--border);padding:12px;border-radius:14px;margin:12px 0}.download-line strong{color:var(--green);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a{flex:1;text-align:center;padding:12px;border-radius:10px;font-weight:900;font-size:13px;transition:.2s}.open{background:var(--primary2);color:#fff}.open:hover{background:#0f5f9f}.view{background:#eef2f7;color:var(--primary);border:1px solid var(--border)}.empty{grid-column:1/-1;background:#fff;border:1px dashed #b7c7d8;border-radius:18px;padding:28px;line-height:1.8;color:#425466}.empty strong{color:var(--primary2)}.section-title{font-size:20px;color:var(--primary);font-weight:900;margin:0 0 16px}.admin-note{margin-top:22px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;border-radius:16px;padding:16px;line-height:1.7;font-size:13px;font-weight:700}.admin-note code{background:#fff;padding:2px 6px;border-radius:6px;border:1px solid #fed7aa}
+footer{background:#fff;color:var(--text);padding:38px 20px 22px;border-top:1px solid var(--border)}.footer-grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px}footer h3{color:var(--primary);margin-bottom:12px}footer p{font-size:14px;line-height:1.8;color:#425466}.legal{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;border-top:1px solid var(--border);padding-top:16px;line-height:1.8}.legal strong{color:var(--primary2)}#btnTopo{position:fixed;bottom:25px;right:25px;width:52px;height:52px;border:none;border-radius:50%;background:var(--primary2);color:#fff;font-size:20px;cursor:pointer;z-index:9999;display:none;box-shadow:0 8px 20px rgba(15,61,102,.22);transition:.2s}#btnTopo:hover{transform:translateY(-3px);background:#0f5f9f}
+@media(max-width:850px){.hero-grid{grid-template-columns:1fr}.hero h2{font-size:29px}.stats{grid-template-columns:1fr}.topbar{justify-content:center;text-align:center}.logo{justify-content:center}.nav{justify-content:center}.brand-bar-inner{justify-content:center;text-align:center}.brand-title{width:100%}.benefits,.brand-shortcuts{justify-content:center}.search-box input,.search-box select,.suggest-wrap{min-width:100%;flex-basis:100%}.catalog-panel{padding-left:14px;padding-right:14px}}
+</style>
+</head>
+<body>
+<header>
+    <div class="container topbar">
+        <a class="logo" href="#inicio">
+            <img src="https://i.ibb.co/gHjrM61/LOGO-DEVERLI-OLIVEIRA.jpg" alt="Logo Deverli Oliveira">
+            <div>
+                <h1>CATÁLOGOS PREMIUM</h1>
+                <p>Central de catálogos agrícolas</p>
+            </div>
+        </a>
+        <nav class="nav">
+            <a href="#inicio">Início</a>
+            <a href="#catalogos">Catálogos</a>
+            <a href="#contato">Contato</a>
+            <a class="whatsapp" href="https://wa.me/5514998510406" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <button class="login" onclick="alert('Área administrativa futura: no Netlify puro não existe upload via PHP. Depois podemos conectar Supabase/Firebase para painel real.')"><i class="fa-solid fa-user-lock"></i> Admin</button>
+        </nav>
+    </div>
+    <div class="brand-bar">
+        <div class="container brand-bar-inner">
+            <div class="brand-shortcuts" aria-label="Principais marcas">
+                <span class="brand-title">Principais marcas</span>
+                <button type="button" onclick="openBrandFolder('TATU')">TATU</button>
+                <button type="button" onclick="openBrandFolder('BALDAN')">BALDAN</button>
+                <button type="button" onclick="openBrandFolder('JACTO')">JACTO</button>
+                <button type="button" onclick="openBrandFolder('JUMIL')">JUMIL</button>
+                <button type="button" onclick="openBrandFolder('STARA')">STARA</button>
+            </div>
+            <div class="benefits">
+                <span class="benefit"><i class="fa-solid fa-file-pdf"></i> PDFs por marca</span>
+                <span class="benefit"><i class="fa-solid fa-download"></i> Download direto</span>
+                <span class="benefit"><i class="fa-solid fa-mobile-screen"></i> Celular e computador</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="search-area">
+    <div class="container search-box">
+        <div class="suggest-wrap">
+            <input type="text" id="search" placeholder="Buscar catálogo, marca, categoria, máquina ou arquivo..." oninput="renderCatalogs(); renderSuggestions();" onfocus="renderSuggestions();" autocomplete="off">
+            <div id="suggestions" class="suggestions"></div>
+        </div>
+        <select id="filter" onchange="renderCatalogs()">
+            <option value="">Todas as categorias</option>
+            <option value="Plantadeiras">Plantadeiras</option>
+            <option value="Ensiladeiras">Ensiladeiras</option>
+            <option value="Colhedoras">Colhedoras</option>
+            <option value="Pulverizadores">Pulverizadores</option>
+            <option value="Tratores">Tratores</option>
+            <option value="Implementos">Implementos</option>
+            <option value="Manuais Técnicos">Manuais Técnicos</option>
+            <option value="Outros">Outros</option>
+        </select>
+    </div>
+</section>
+
+
+
+<main class="site-middle">
+    <section id="catalogos" class="container catalog-panel">
+        <div class="toolbar">
+            <div class="path" id="brandPath">Pastas por marca</div>
+            <button class="back" id="backBrandBtn" onclick="clearFilters()" style="display:none"><i class="fa-solid fa-arrow-left"></i> Voltar para marcas</button>
+        </div>
+        <div class="section-title">Marcas disponíveis</div>
+        <div id="brandFoldersGrid" class="catalog-grid"></div>
+        <div id="catalogGrid" class="catalog-grid"></div>
+        <div class="admin-note">
+            <strong>Como adicionar PDFs no Netlify:</strong><br>
+            1. Coloque o PDF na pasta correta, exemplo: <code>catalogos/TATU/catalogo-plantadeira.pdf</code><br>
+            2. Adicione esse PDF na lista <code>catalogos</code> dentro do JavaScript no final deste arquivo.<br>
+            3. Envie para o GitHub. O Netlify publica automaticamente.
+        </div>
+    </section>
+</main>
+
+<footer id="contato">
+    <div class="footer-grid">
+        <div>
+            <h3>Contato</h3>
+            <p><strong>Deverli Oliveira</strong><br>📞 (14) 99851-0406<br>✉️ oliveiradeverli1@gmail.com</p>
+        </div>
+        <div>
+            <h3>Sobre o projeto</h3>
+            <p>Central online para organizar catálogos agrícolas, manuais técnicos, listas de peças e PDFs por marcas.</p>
+        </div>
+    </div>
+    <div class="legal">© 2026 Todos os direitos reservados.<br>Criador: <strong>Deverli Oliveira</strong>.</div>
+</footer>
+
+<button id="btnTopo" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Voltar ao topo"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+/*
+============================================================
+COMO CADASTRAR CATÁLOGOS
+============================================================
+1) Crie a pasta catalogos no GitHub, no mesmo lugar do index.html.
+2) Dentro dela, crie pastas por marca:
+   catalogos/TATU/
+   catalogos/BALDAN/
+   catalogos/JACTO/
+   catalogos/JUMIL/
+   catalogos/STARA/
+3) Envie seus PDFs para essas pastas.
+4) Cadastre cada PDF na lista abaixo.
+
+IMPORTANTE: Netlify não lista arquivos automaticamente como PHP.
+Por isso cada PDF precisa estar nesta lista.
+============================================================
+*/
+
+const catalogos = [
+    {
+        id: "tatu-plantadeira-exemplo",
+        nome: "Catálogo Plantadeira TATU",
+        marca: "TATU",
+        categoria: "Plantadeiras",
+        arquivo: "catalogos/TATU/catalogo-plantadeira-tatu.pdf",
+        descricao: "Catálogo técnico com peças, códigos e aplicações."
+    },
+    {
+        id: "baldan-grade-exemplo",
+        nome: "Catálogo Grade BALDAN",
+        marca: "BALDAN",
+        categoria: "Implementos",
+        arquivo: "catalogos/BALDAN/catalogo-grade-baldan.pdf",
+        descricao: "Catálogo técnico com informações de implementos agrícolas."
+    },
+    {
+        id: "jacto-pulverizador-exemplo",
+        nome: "Catálogo Pulverizador JACTO",
+        marca: "JACTO",
+        categoria: "Pulverizadores",
+        arquivo: "catalogos/JACTO/catalogo-pulverizador-jacto.pdf",
+        descricao: "Manual e catálogo técnico para pulverizadores."
+    },
+    {
+        id: "jumil-plantadeira-exemplo",
+        nome: "Catálogo Plantadeira JUMIL",
+        marca: "JUMIL",
+        categoria: "Plantadeiras",
+        arquivo: "catalogos/JUMIL/catalogo-plantadeira-jumil.pdf",
+        descricao: "Catálogo de peças e componentes para plantadeiras."
+    },
+    {
+        id: "stara-exemplo",
+        nome: "Catálogo STARA",
+        marca: "STARA",
+        categoria: "Manuais Técnicos",
+        arquivo: "catalogos/STARA/catalogo-stara.pdf",
+        descricao: "Manual técnico e catálogo de peças."
+    }
+];
+
+const marcasFixas = ['TATU','BALDAN','JACTO','JUMIL','STARA','JAN','KUHN','MASSEY FERGUSON','JOHN DEERE','NEW HOLLAND','CASE','VALTRA','AGRALE','SÃO JOSÉ','LAVRALE','NOGUEIRA','MIAC','PINHALENSE','CIVEMASA','VENCE TUDO'];
+let marcaAtual = new URLSearchParams(window.location.search).get("marca") || "";
+
+function escapeHtml(value){return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
+function escapeJs(value){return String(value||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
+function normalizeText(value){return String(value||"").normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]/g,'').toUpperCase();}
+function normalizeBrandName(brand){return String(brand||"Sem marca").trim()||"Sem marca";}
+function marcaCombina(marcaCatalogo, marcaSelecionada){
+    if(!marcaSelecionada) return true;
+    const catalog = normalizeText(marcaCatalogo);
+    const selected = normalizeText(marcaSelecionada);
+    const aliases = {
+        TATU: ['TATU','MARCHESAN','TATUMARCHESAN'],
+        BALDAN: ['BALDAN'],
+        JACTO: ['JACTO'],
+        JUMIL: ['JUMIL'],
+        STARA: ['STARA']
+    };
+    const termos = aliases[selected] || [selected];
+    return termos.some(term => catalog === term || catalog.includes(term) || term.includes(catalog));
+}
+function iconByCategory(category){
+    const icons={"Plantadeiras":"fa-seedling","Ensiladeiras":"fa-tractor","Colhedoras":"fa-wheat-awn","Pulverizadores":"fa-spray-can-sparkles","Tratores":"fa-tractor","Implementos":"fa-gears","Manuais Técnicos":"fa-book","Outros":"fa-folder-open"};
+    return icons[category]||"fa-folder-open";
+}
+function openBrandFolder(brand){
+    marcaAtual=String(brand||'').toUpperCase();
+    document.getElementById('search').value="";
+    document.getElementById('filter').value="";
+    history.replaceState(null,'',window.location.pathname + '?marca=' + encodeURIComponent(marcaAtual));
+    renderCatalogs();
+    document.getElementById('catalogos').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function clearFilters(){
+    marcaAtual="";
+    document.getElementById('search').value="";
+    document.getElementById('filter').value="";
+    history.replaceState(null,'',window.location.pathname);
+    renderCatalogs();
+}
+function openCategory(cat){
+    marcaAtual="";
+    document.getElementById('filter').value=cat;
+    document.getElementById('search').value="";
+    renderCatalogs();
+    document.getElementById('catalogos').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderBrandFolders(){
+    const grid=document.getElementById('brandFoldersGrid');
+    const groups={};
+    grid.innerHTML='';
+    catalogos.forEach(c=>{
+        const brand=normalizeBrandName(c.marca).toUpperCase();
+        if(!groups[brand]) groups[brand]=[];
+        groups[brand].push(c);
+    });
+    marcasFixas.forEach(brand=>{
+        const b=normalizeBrandName(brand).toUpperCase();
+        if(!groups[b]) groups[b]=[];
+    });
+    const brands=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+    document.getElementById('totalMarcas').innerText=brands.length;
+    brands.forEach(brand=>{
+        const count=groups[brand].length;
+        const categories=count ? [...new Set(groups[brand].map(c=>c.categoria))].join(', ') : 'Clique para ver catálogos da marca';
+        grid.innerHTML+=`<div class="brand-folder" onclick="openBrandFolder('${escapeJs(brand)}')"><div class="folder-icon"><i class="fa-solid fa-folder-open"></i></div><h3>${escapeHtml(brand)}</h3><p>${escapeHtml(categories)}</p><span class="count">${count} catálogo(s)</span></div>`;
+    });
+}
+function renderSuggestions(){
+    const box=document.getElementById('suggestions');
+    const input=document.getElementById('search');
+    const term=input.value.trim().toLowerCase();
+    if(term.length < 1){box.style.display='none';box.innerHTML='';return;}
+    const items=[];
+    const added=new Set();
+    function add(label,type,value,icon){
+        const key=(type+'|'+label).toLowerCase();
+        if(added.has(key) || items.length>=10) return;
+        added.add(key);
+        items.push({label,type,value,icon});
+    }
+    catalogos.forEach(c=>{
+        if(String(c.marca).toLowerCase().includes(term)) add(c.marca,'Marca',c.marca,'fa-folder-open');
+        if(String(c.categoria).toLowerCase().includes(term)) add(c.categoria,'Categoria',c.categoria,'fa-tags');
+        if(String(c.nome).toLowerCase().includes(term)) add(c.nome,'Catálogo',c.id,'fa-file-pdf');
+        if(String(c.arquivo).toLowerCase().includes(term)) add(c.arquivo,'Arquivo',c.id,'fa-file');
+    });
+    marcasFixas.forEach(b=>{ if(String(b).toLowerCase().includes(term)) add(b,'Marca',b,'fa-folder-open'); });
+    if(items.length===0){box.style.display='none';box.innerHTML='';return;}
+    box.innerHTML=items.map(item=>`<div class="suggestion-item" onclick="selectSuggestion('${escapeJs(item.value)}','${escapeJs(item.type)}')"><i class="fa-solid ${item.icon}"></i><div>${escapeHtml(item.label)}<small>${escapeHtml(item.type)}</small></div></div>`).join('');
+    box.style.display='block';
+}
+function selectSuggestion(value,type){
+    const box=document.getElementById('suggestions');
+    if(type==='Marca') openBrandFolder(value);
+    else if(type==='Categoria') openCategory(value);
+    else {
+        const c = catalogos.find(x => x.id === value);
+        if(c){
+            document.getElementById('search').value = c.nome;
+            marcaAtual = c.marca;
+            renderCatalogs();
+            setTimeout(()=>{
+                const card = document.querySelector(`[data-catalog-id="${c.id}"]`);
+                if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.style.boxShadow='0 0 35px rgba(245,130,32,.65)';setTimeout(()=>card.style.boxShadow='',2500);}
+            },250);
+        }
+    }
+    if(box) box.style.display='none';
+}
+document.addEventListener('click', function(e){
+    const wrap=document.querySelector('.suggest-wrap');
+    const box=document.getElementById('suggestions');
+    if(wrap && box && !wrap.contains(e.target)) box.style.display='none';
+});
+function renderCatalogs(){
+    renderBrandFolders();
+    document.getElementById('totalCatalogos').innerText = catalogos.length;
+    const brandGrid=document.getElementById('brandFoldersGrid');
+    const grid=document.getElementById('catalogGrid');
+    const search=document.getElementById('search').value.toLowerCase().trim();
+    const filter=document.getElementById('filter').value;
+    const brandPath=document.getElementById('brandPath');
+    const backBtn=document.getElementById('backBrandBtn');
+    brandGrid.style.display = (marcaAtual || search.length > 0 || filter) ? 'none' : 'grid';
+    document.querySelectorAll('.brand-shortcuts button').forEach(btn=>{
+        const txt = String(btn.textContent||'').trim().toUpperCase();
+        btn.classList.toggle('active-brand', marcaAtual && normalizeText(txt)===normalizeText(marcaAtual));
+    });
+    const filtered=catalogos.filter(c=>{
+        const text=`${c.nome} ${c.marca} ${c.categoria} ${c.arquivo} ${c.descricao}`.toLowerCase();
+        return (search==='' || text.includes(search)) && (filter==='' || c.categoria===filter) && marcaCombina(c.marca, marcaAtual);
+    });
+    grid.innerHTML='';
+    if(!marcaAtual && search.length===0 && filter===''){
+        brandPath.innerHTML='Pastas por marca';
+        backBtn.style.display='none';
+        return;
+    }
+    backBtn.style.display='inline-flex';
+    if(marcaAtual) brandPath.innerHTML=`Pasta aberta: <strong>${escapeHtml(marcaAtual)}</strong>`;
+    else if(filter) brandPath.innerHTML=`Mostrando somente: <strong>${escapeHtml(filter)}</strong>`;
+    else brandPath.innerHTML=`Resultado da busca: <strong>${escapeHtml(search)}</strong>`;
+    if(filtered.length===0){
+        grid.innerHTML=`<div class="empty">Nenhum PDF encontrado para esta seleção.<br><br>Confirme se o PDF está cadastrado na lista JavaScript e se o caminho do arquivo está correto, exemplo: <strong>catalogos/TATU/nome-do-arquivo.pdf</strong>.</div>`;
+        return;
+    }
+    filtered.forEach(c=>{
+        grid.innerHTML+=`<div class="card" data-catalog-id="${escapeHtml(c.id)}"><div class="card-icon"><i class="fa-solid ${iconByCategory(c.categoria)}"></i></div><span class="tag">${escapeHtml(c.categoria)}</span><h3>${escapeHtml(c.nome)}</h3><p><b>Marca:</b> ${escapeHtml(c.marca)}</p><p>${escapeHtml(c.descricao)}</p><div class="download-line"><span><i class="fa-solid fa-file-pdf"></i> PDF disponível</span><strong><i class="fa-solid fa-download"></i> Download liberado</strong></div><div class="actions"><a class="open" href="${escapeHtml(c.arquivo)}" download><i class="fa-solid fa-download"></i> Baixar catálogo</a><a class="view" href="${escapeHtml(c.arquivo)}" target="_blank"><i class="fa-solid fa-eye"></i> Visualizar</a></div></div>`;
+    });
+}
+window.addEventListener('scroll', function(){document.getElementById('btnTopo').style.display = window.scrollY > 300 ? 'block' : 'none';});
+renderCatalogs();
+</script>
+</body>
+</html>
